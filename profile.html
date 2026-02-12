@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes, maximum-scale=5">
+    <meta name="theme-color" content="#5C2E5C">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Bookopedia - Profile</title>
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -51,9 +54,14 @@
             <span class="menu-right">›</span>
         </a>
 
-        <a href="#" class="menu-item logout">
-            <span class="menu-left">Log Out</span>
+        <a href="contact.html" class="menu-item">
+            <span class="menu-left">Contact Us</span>
             <span class="menu-right">›</span>
+        </a>
+
+        <a href="#" id="logoutBtn" class="menu-item logout"> 
+            <span class="menu-left">Log Out</span> 
+            <span class="menu-right">›</span> 
         </a>
 
     </div>
@@ -67,4 +75,9 @@
     </nav>
 
 </body>
+    <script> document.getElementById("logoutBtn").addEventListener("click", function (event) {
+         event.preventDefault(); 
+         alert("Are you sure you want to log out?"); 
+         }); 
+    </script>
 </html>

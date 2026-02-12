@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes, maximum-scale=5">
+    <meta name="theme-color" content="#5C2E5C">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Bookopedia - Contact Us</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="contact-screen">
+
+    <header class="contact-header">
+        <a href="profile.html" class="back-btn">←</a>
+        <h2>Contact Us</h2>
+    </header>
+
+    <div class="contact-container">
+        <form id="contactForm" class="contact-form">
+            
+            <div class="form-group">
+                <label for="name">Full Name *</label>
+                <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address *</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number *</label>
+                <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+            </div>
+
+            <div class="form-group">
+                <label for="feedback">Feedback/Message *</label>
+                <textarea id="feedback" name="feedback" placeholder="Type your message here..." rows="6" required></textarea>
+            </div>
+
+            <button type="submit" class="primary-btn submit-btn">Submit</button>
+        </form>
+
+        <div id="successMessage" class="success-message" style="display: none;">
+            <p>✓ Thank you for contacting us! We'll get back to you soon.</p>
+        </div>
+    </div>
+
+    <nav class="bottom-nav">
+        <a href="home.html" class="nav-btn">Home</a>
+        <a href="categories.html" class="nav-btn">Categories</a>
+        <a href="cart.html" class="nav-btn">
+            Cart
+            <span class="cart-count" style="background: #e74c3c; color: white; border-radius: 50%; width: 20px; height: 20px; display: none; font-size: 12px; line-height: 20px; text-align: center; position: absolute; top: -5px; right: -10px;"></span>
+        </a>
+        <a href="profile.html" class="nav-btn active">Profile</a>
+    </nav>
+
+    <script src="app.js"></script>
+    <script>
+        // Handle Contact Form Submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Get form data
+            const contactData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                feedback: document.getElementById('feedback').value,
+                timestamp: new Date().toISOString()
+            };
+
+            // Store in session storage
+            const existingContacts = sessionStorage.getItem('contactMessages');
+            let contacts = existingContacts ? JSON.parse(existingContacts) : [];
+            contacts.push(contactData);
+            sessionStorage.setItem('contactMessages', JSON.stringify(contacts));
+
+            // Show success message
+            document.getElementById('contactForm').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'block';
+
+            // Reset form after 2 seconds and redirect
+            setTimeout(() => {
+                window.location.href = 'profile.html';
+            }, 3000);
+        });
+    </script>
+</body>
+</html>

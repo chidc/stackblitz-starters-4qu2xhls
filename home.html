@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes, maximum-scale=5">
+    <meta name="theme-color" content="#5C2E5C">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Bookopedia - Home</title>
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -42,37 +45,24 @@
         <h3 class="section-title">Categories</h3>
 
         <div class="category-tabs">
-            <button class="tab active">All</button>
-            <button class="tab">Horror</button>
-            <button class="tab">Fantasy</button>
-            <button class="tab">Comedy</button>
+            <!-- Tabs will be populated by JavaScript -->
         </div>
 
         <div class="category-books">
-
-            <a href="details.html" class="book-card">
-                <div class="book-img"></div>
-                <p class="book-title">Book Name</p>
-                <p class="book-author">Author Name</p>
-                <p class="book-price">$30.00</p>
-            </a>
-
-            <a href="details.html" class="book-card">
-                <div class="book-img"></div>
-                <p class="book-title">Book Name</p>
-                <p class="book-author">Author Name</p>
-                <p class="book-price">$21.00</p>
-            </a>
-
+            <!-- Books will be populated by JavaScript -->
         </div>
     </section>
 
     <nav class="bottom-nav">
         <a href="home.html" class="nav-btn active">Home</a>
         <a href="categories.html" class="nav-btn">Categories</a>
-        <a href="cart.html" class="nav-btn">Cart</a>
+        <a href="cart.html" class="nav-btn">
+            Cart
+            <span class="cart-count" style="background: #e74c3c; color: white; border-radius: 50%; width: 20px; height: 20px; display: none; font-size: 12px; line-height: 20px; text-align: center; position: absolute; top: -5px; right: -10px;"></span>
+        </a>
         <a href="profile.html" class="nav-btn">Profile</a>
     </nav>
 
+    <script src="app.js"></script>
 </body>
 </html>
