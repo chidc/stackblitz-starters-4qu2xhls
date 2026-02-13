@@ -1,9 +1,9 @@
 // Product Database
 const products = [
-    { id: 1, title: "The Great Gatsby", author: "F. Scott Fitzgerald", price: 30.00, rating: 4.5, category: "Classic" },
-    { id: 2, title: "To Kill a Mockingbird", author: "Harper Lee", price: 21.00, rating: 4.8, category: "Classic" },
-    { id: 3, title: "1984", author: "George Orwell", price: 25.50, rating: 4.6, category: "Dystopian" },
-    { id: 4, title: "Pride and Prejudice", author: "Jane Austen", price: 18.99, rating: 4.7, category: "Romance" }
+    { id: 1, title: "The Great Gatsby", author: "F. Scott Fitzgerald", price: 30.00, rating: 4.5, category: "Classic", image: "/images/TheGreatGatsby/41733839cover.jpg" },
+    { id: 2, title: "To Kill a Mockingbird", author: "Harper Lee", price: 21.00, rating: 4.8, category: "Classic", image: "/images/ToKillAMockingbird/to-kill-a-mockingbird-poster-658-p.webp" },
+    { id: 3, title: "1984", author: "George Orwell", price: 25.50, rating: 4.6, category: "Dystopian", image: "/images/1984/9780141036144-jacket-large.jpeg" },
+    { id: 4, title: "Pride and Prejudice", author: "Jane Austen", price: 18.99, rating: 4.7, category: "Romance", image: "/images/PrideAndPrejudice/71CvWDPcVEL._AC_UF1000,1000_QL80_.jpg" }
 ];
 
 // Categories
@@ -95,9 +95,12 @@ function renderCart() {
         return;
     }
 
-    cartList.innerHTML = cart.cart.map(item => `
+    cartList.innerHTML = cart.cart.map(item => {
+        const product = products.find(p => p.id === item.id);
+        const imageUrl = product ? product.image : '/images/TheGreatGatsby/41733839cover.jpg';
+        return `
         <div class="cart-item" data-id="${item.id}">
-            <div class="cart-img"></div>
+            <img src="${imageUrl}" alt="${item.title}" class="cart-img">
             <div class="cart-info">
                 <p class="book-title">${item.title}</p>
                 <p class="book-price">$${item.price.toFixed(2)}</p>
@@ -109,7 +112,8 @@ function renderCart() {
                 <button class="remove-btn" data-id="${item.id}" style="color: #e74c3c; border: none; background: none; cursor: pointer; margin-top: 5px;">Remove</button>
             </div>
         </div>
-    `).join('');
+    `;
+    }).join('');
 
     updateCartSummary();
     attachCartEventListeners();
@@ -176,9 +180,20 @@ function setupDetailsPage() {
     
     const product = products.find(p => p.id === parseInt(productId));
     if (product) {
+        // Display book cover image
+        const bookImageLarge = document.querySelector('.book-image-large');
+        if (bookImageLarge) {
+            bookImageLarge.style.backgroundImage = `url('${product.image}')`;
+            bookImageLarge.style.backgroundSize = 'cover';
+            bookImageLarge.style.backgroundPosition = 'center';
+        }
+        
         document.querySelector('.book-title').textContent = product.title;
         document.querySelector('.book-author').textContent = product.author;
         document.querySelector('.book-price').innerHTML = `$${product.price.toFixed(2)} <span class="rating">(${product.rating}★)</span>`;
+        
+        // Display related books (other books in same category)
+        displayRelatedBooks(product.category, product.id);
     }
     
     const buyBtn = document.querySelector('.add-to-cart-btn');
@@ -189,6 +204,32 @@ function setupDetailsPage() {
             alert('Item added to cart!');
         });
     }
+}
+
+// Display Related Books
+function displayRelatedBooks(category, currentProductId) {
+    const relatedList = document.querySelector('.related-list');
+    if (!relatedList) return;
+    
+    // Get books from same category excluding current book
+    const relatedProducts = products.filter(
+        product => product.category === category && product.id !== currentProductId
+    );
+    
+    // If not enough books in category, add random books from other categories
+    if (relatedProducts.length < 2) {
+        const otherProducts = products.filter(
+            product => product.category !== category && product.id !== currentProductId
+        );
+        relatedProducts.push(...otherProducts);
+    }
+    
+    // Display up to 2 related books
+    relatedList.innerHTML = relatedProducts.slice(0, 2)
+        .map(product => `
+            <a href="details.html" class="related-card" onclick="sessionStorage.setItem('currentProductId', ${product.id})" style="background-image: url('${product.image}'); background-size: cover; background-position: center;">
+            </a>
+        `).join('');
 }
 
 // Setup Homepage
@@ -272,7 +313,7 @@ function renderCategoryBooks() {
     categoryBooks.innerHTML = filteredProducts
         .map(product => `
             <a href="details.html" class="book-card" onclick="sessionStorage.setItem('currentProductId', ${product.id})">
-                <div class="book-img"></div>
+                <img src="${product.image}" alt="${product.title}" class="logo-img">
                 <p class="book-title">${product.title}</p>
                 <p class="book-author">${product.author}</p>
                 <p class="book-price">$${product.price.toFixed(2)}</p>
